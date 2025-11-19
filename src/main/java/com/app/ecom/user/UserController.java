@@ -1,5 +1,7 @@
 package com.app.ecom.user;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,19 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
-
-    private List<User> userList = new ArrayList<>();
+    private final UserService userService ;
 
     @GetMapping("/api/users")
     public List<User> getAllUsers(){
-        return userList;
+        return userService.fetchAllUsers();
     }
 
     @PostMapping("/api/users")
-    public List<User> createUser(@RequestBody User newUser){
-        userList.add(newUser);
-        return userList;
+    public String createUser(@RequestBody User newUser){
+       userService.addUser(newUser);
+       return "User Has Created Successfully";
     }
 
 }
