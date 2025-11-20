@@ -20,4 +20,11 @@ public class UserService {
         return userList;
     }
 
+    public User getUser(long id) {
+        for (User user : userList){
+            if(user.getId().equals(id))
+               return  user;
+        }
+        return null;
+    }
 }
