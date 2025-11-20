@@ -31,4 +31,14 @@ public class UserController {
                 );
     }
 
+    @PutMapping("/api/users/{id}")
+    public ResponseEntity<String> updateUser (@PathVariable long id ,@RequestBody User updatedUser) {
+        boolean isUpdated = userService.updateUser(id, updatedUser);
+
+        if(isUpdated)
+            return ResponseEntity.ok("Updated Successfully");
+
+        return ResponseEntity.notFound().build();
+    }
+
 }
