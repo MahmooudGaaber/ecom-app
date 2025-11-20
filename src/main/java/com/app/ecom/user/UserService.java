@@ -1,9 +1,9 @@
 package com.app.ecom.user;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,11 +21,9 @@ public class UserService {
         return userList;
     }
 
-    public User getUser(long id) {
-        for (User user : userList){
-            if(user.getId().equals(id))
-               return  user;
-        }
-        return null;
+    public Optional<User> getUser(long id) {
+        return   userList.stream().filter(
+                item -> item.getId().equals(id)
+        ).findFirst();
     }
 }
