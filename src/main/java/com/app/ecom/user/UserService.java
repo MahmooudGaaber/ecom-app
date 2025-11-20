@@ -1,14 +1,12 @@
 package com.app.ecom.user;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
-
+    long usersId = 1L;
     private List<User> userList = new ArrayList<>();
 
 
@@ -17,6 +15,7 @@ public class UserService {
     }
 
     public List<User> addUser( User newUser){
+        newUser.setId( usersId++ );
         userList.add(newUser);
         return userList;
     }
