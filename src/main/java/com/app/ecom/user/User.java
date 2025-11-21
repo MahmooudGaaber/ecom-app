@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
+@Entity(name = "user_table")
 // * Replace of No Args Constructor Provided From LOMBOK
 @NoArgsConstructor
 // * Replace of All Args Constructor Provided From LOMBOK
@@ -21,6 +21,7 @@ public class User {
 
 
     private String firstName;
+
     private String lastName;
 
     // ? Mandatory Empty Constructor to active Jpa
