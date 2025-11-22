@@ -1,9 +1,10 @@
-package com.app.ecom.user;
+package com.app.ecom.service;
 
+import com.app.ecom.repository.UserRepository;
+import com.app.ecom.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 

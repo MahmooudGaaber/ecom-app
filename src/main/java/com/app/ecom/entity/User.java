@@ -1,4 +1,5 @@
-package com.app.ecom.user;
+package com.app.ecom.entity;
+import com.app.ecom.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
