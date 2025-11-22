@@ -21,13 +21,12 @@ public class User {
 
 
     private String firstName;
-
     private String lastName;
+    private String email;
+    private String phone;
+    private UserRole role = UserRole.CUSTOMER;
 
     // ? Mandatory Empty Constructor to active Jpa
     // * uses reflection to create entity objects
     // * so i need to add no Arg Constructor or Create one Manually
-
-
-
 }

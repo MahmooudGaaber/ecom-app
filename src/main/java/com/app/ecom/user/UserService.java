@@ -32,6 +32,9 @@ public class UserService {
               .map(existingUser -> {
                   existingUser.setFirstName(updatedUser.getFirstName());
                   existingUser.setLastName(updatedUser.getLastName());
+                  existingUser.setEmail(updatedUser.getEmail());
+                  existingUser.setPhone(updatedUser.getPhone());
+                  existingUser.setRole(updatedUser.getRole());
                   userRepository.save(existingUser);
                   return true;
               }).orElse(false);
