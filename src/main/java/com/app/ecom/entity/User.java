@@ -28,9 +28,14 @@ public class User {
     private String phone;
     private UserRole role = UserRole.CUSTOMER;
 
+    // ? One To One
+    // * First Declare The Owner Of The RelationShip
+    // * By Add The @OneToOne and it be unidirectional RelationShip if i write this annotation in one class
+    // * @JoinColumn Have The Properties of Column ( name , referenced Column Name )
     @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
     @JoinColumn(name = "address_id" , referencedColumnName = "id")
     private Address address;
+
 
     @CreationTimestamp
     private LocalDateTime createdAt;
