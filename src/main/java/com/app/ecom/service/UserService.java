@@ -1,7 +1,9 @@
 package com.app.ecom.service;
 
 import com.app.ecom.dto.AddressDto;
+import com.app.ecom.dto.UserRequests;
 import com.app.ecom.dto.UserResponses;
+import com.app.ecom.entity.Address;
 import com.app.ecom.repository.UserRepository;
 import com.app.ecom.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -27,24 +29,24 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public void addUser( User newUser){
-        userRepository.save(newUser);
+    public void addUser( UserRequests newUser){
+        User user = new User();
+        updateUserFromRequest(user , newUser);
+        userRepository.save(user);
     }
+
+
 
     public Optional<UserResponses> getUser(long id) {
         return userRepository.findById(id)
                 .map(this::mapToUserResponses);
     }
 
-    public boolean updateUser (long id , User updatedUser) {
-      return  getUser(id)
+    public boolean updateUser (long id , UserRequests updatedUser) {
+      return  userRepository.findById(id)
               .map(existingUser -> {
-                  existingUser.setFirstName(updatedUser.getFirstName());
-                  existingUser.setLastName(updatedUser.getLastName());
-                  existingUser.setEmail(updatedUser.getEmail());
-                  existingUser.setPhone(updatedUser.getPhone());
-                  existingUser.setRole(updatedUser.getRole());
-//                  userRepository.save(existingUser);
+                  updateUserFromRequest(existingUser,updatedUser);
+                  userRepository.save(existingUser);
                   return true;
               }).orElse(false);
     }
@@ -74,5 +76,26 @@ public class UserService {
             responses.setAddress(addressDto);
         }
         return responses ;
+    }
+
+    // ? Use Of DTO to control the data that send and receive from client side
+    // * User Requests is a class that hold the data get from client
+    // * we shift data one by one from the main class to DTO Classes
+    private void updateUserFromRequest(User user, UserRequests newUser) {
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setEmail(newUser.getEmail());
+        user.setPhone(newUser.getPhone());
+
+        if (newUser.getAddress() != null){
+            Address address = new Address();
+            address.setCity(newUser.getAddress().getCity());
+            address.setCountry(newUser.getAddress().getCountry());
+            address.setStreet(newUser.getAddress().getStreet());
+            address.setState(newUser.getAddress().getState());
+            address.setZipcode(newUser.getAddress().getZipcode());
+            user.setAddress(address);
+
+        }
     }
 }
