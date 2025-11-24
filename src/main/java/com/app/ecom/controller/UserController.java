@@ -1,5 +1,6 @@
 package com.app.ecom.controller;
 
+import com.app.ecom.dto.UserResponses;
 import com.app.ecom.entity.User;
 import com.app.ecom.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class UserController {
     private final UserService userService ;
 
     @GetMapping()
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<UserResponses>> getAllUsers(){
         return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUser(@PathVariable long id){
+    public ResponseEntity<UserResponses> getUser(@PathVariable long id){
         return userService.getUser(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(
