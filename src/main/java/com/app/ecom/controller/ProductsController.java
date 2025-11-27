@@ -4,12 +4,13 @@ import com.app.ecom.dto.ProductsRequest;
 import com.app.ecom.dto.ProductsResponse;
 import com.app.ecom.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(name = "/api/products")
+@RequestMapping("/api/products")
 public class ProductsController {
     private final ProductService productService;
 
@@ -20,7 +21,7 @@ public class ProductsController {
         return null;
     }
 
-    @PutMapping("product/{id}")
+    @PutMapping("{id}")
     public Boolean updateProduct(){
         return null ;
     }
@@ -30,10 +31,12 @@ public class ProductsController {
         return null;
     }
 
-    @PostMapping("Product")
-    public ResponseEntity<String> createProduct(@RequestBody ProductsRequest productsRequest){
-        productService.createProduct(productsRequest);
-        return ResponseEntity.ok("Product Created Successfully");
+    @PostMapping()
+    public ResponseEntity<ProductsResponse> createProduct(@RequestBody ProductsRequest productsRequest){
+        return  new ResponseEntity<ProductsResponse>(
+                productService.createProduct(productsRequest),
+                HttpStatus.CREATED
+        );
     }
 
 }

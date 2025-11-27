@@ -1,22 +1,32 @@
 package com.app.ecom.service;
 
 import com.app.ecom.dto.ProductsRequest;
+import com.app.ecom.dto.ProductsResponse;
 import com.app.ecom.entity.Product;
 import com.app.ecom.entity.User;
 import com.app.ecom.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
+// ? RequiredArgs Only Deal With Final Variables
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductsRepository productsRepository;
 
 
-    public void createProduct (ProductsRequest productsRequest) {
+    public ProductsResponse createProduct (ProductsRequest productsRequest) {
         Product product = new Product();
         ConvertFromProductRequest(product , productsRequest);
-        productsRepository.save(product);
+       Product savedProduct = productsRepository.save(product);
+        return mapToProductResponse(savedProduct);
+    }
+
+    public Optional<ProductsResponse> getProductById(Long id){
+        return productsRepository.findById(id)
+                .map(this::mapToProductResponse);
     }
 
     public void ConvertFromProductRequest (Product product , ProductsRequest productsRequest){
@@ -26,12 +36,24 @@ public class ProductService {
         product.setName(productsRequest.getName());
         product.setPrice(productsRequest.getPrice());
         product.setStockQuantity(productsRequest.getStockQuantity());
-
         if (product.getStockQuantity() <= 0){
             product.setActive(false);
         } else {
-            product.setActive(false);
+            product.setActive(true);
         }
+    }
+
+    public ProductsResponse mapToProductResponse (Product savedProduct){
+        ProductsResponse productsResponse = new ProductsResponse();
+        productsResponse.setId(savedProduct.getId());
+        productsResponse.setCategory(savedProduct.getCategory());
+        productsResponse.setDescription(savedProduct.getDescription());
+        productsResponse.setImageUrl(savedProduct.getImageUrl());
+        productsResponse.setName(savedProduct.getName());
+        productsResponse.setPrice(savedProduct.getPrice());
+        productsResponse.setStockQuantity(savedProduct.getStockQuantity());
+        productsResponse.setActive(savedProduct.getActive());
+        return  productsResponse;
     }
 
 
