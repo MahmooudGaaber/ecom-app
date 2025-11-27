@@ -26,10 +26,10 @@ public class ProductService {
         return mapToProductResponse(savedProduct);
     }
 
-//    public ProductsResponse getProductById(Long id){
-//        return productsRepository.findById(id)
-//                .map(this::mapToProductResponse);
-//    }
+    public Optional<ProductsResponse> getProductById(Long id){
+        return productsRepository.findById(id)
+                .map(this::mapToProductResponse);
+    }
 
     public List<ProductsResponse> getAllProducts (){
         return productsRepository.findAll().stream().map(this::mapToProductResponse).collect(Collectors.toList());
