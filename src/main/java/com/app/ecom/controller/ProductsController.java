@@ -2,7 +2,7 @@ package com.app.ecom.controller;
 
 import com.app.ecom.dto.ProductsRequest;
 import com.app.ecom.dto.ProductsResponse;
-import com.app.ecom.repository.ProductsRepository;
+import com.app.ecom.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(name = "/api/products")
 public class ProductsController {
-    private final ProductsRepository productsRepository;
+    private final ProductService productService;
 
     // Creating And Updating Products
 
@@ -31,8 +31,9 @@ public class ProductsController {
     }
 
     @PostMapping("Product")
-    public ResponseEntity<ProductsResponse> createProduct(@RequestBody ProductsRequest productsRequest){
-        return null;
+    public ResponseEntity<String> createProduct(@RequestBody ProductsRequest productsRequest){
+        productService.createProduct(productsRequest);
+        return ResponseEntity.ok("Product Created Successfully");
     }
 
 }
