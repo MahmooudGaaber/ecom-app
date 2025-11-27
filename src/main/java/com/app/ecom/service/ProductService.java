@@ -8,7 +8,9 @@ import com.app.ecom.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 // ? RequiredArgs Only Deal With Final Variables
@@ -24,9 +26,13 @@ public class ProductService {
         return mapToProductResponse(savedProduct);
     }
 
-    public Optional<ProductsResponse> getProductById(Long id){
-        return productsRepository.findById(id)
-                .map(this::mapToProductResponse);
+//    public ProductsResponse getProductById(Long id){
+//        return productsRepository.findById(id)
+//                .map(this::mapToProductResponse);
+//    }
+
+    public List<ProductsResponse> getAllProducts (){
+        return productsRepository.findAll().stream().map(this::mapToProductResponse).collect(Collectors.toList());
     }
 
     public void ConvertFromProductRequest (Product product , ProductsRequest productsRequest){

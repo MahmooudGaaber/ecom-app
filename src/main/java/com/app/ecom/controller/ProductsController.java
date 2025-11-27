@@ -8,17 +8,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/products")
 public class ProductsController {
     private final ProductService productService;
 
-    // Creating And Updating Products
-
-    @GetMapping("products")
-    public ResponseEntity<ProductsResponse> getAllProducts(){
-        return null;
+    @GetMapping()
+    public ResponseEntity<List<ProductsResponse>> getAllProducts(){
+        return new ResponseEntity<List<ProductsResponse>>(
+                productService.getAllProducts(),
+                HttpStatus.FOUND
+        );
     }
 
     @PutMapping("{id}")
