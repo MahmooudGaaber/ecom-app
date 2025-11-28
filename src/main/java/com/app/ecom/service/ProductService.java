@@ -35,6 +35,16 @@ public class ProductService {
         return productsRepository.findAll().stream().map(this::mapToProductResponse).collect(Collectors.toList());
     }
 
+    public boolean updateProduct (long id ,ProductsRequest productsRequest ) {
+
+        return productsRepository.findById(id)
+                .map(existingProduct ->{
+                    ConvertFromProductRequest(existingProduct,productsRequest);
+                    productsRepository.save(existingProduct);
+                    return true;
+                }).orElse(false);
+    }
+
     public void ConvertFromProductRequest (Product product , ProductsRequest productsRequest){
         product.setCategory(productsRequest.getCategory());
         product.setDescription(productsRequest.getDescription());

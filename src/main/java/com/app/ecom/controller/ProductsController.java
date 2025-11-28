@@ -2,6 +2,7 @@ package com.app.ecom.controller;
 
 import com.app.ecom.dto.ProductsRequest;
 import com.app.ecom.dto.ProductsResponse;
+import com.app.ecom.dto.UserRequests;
 import com.app.ecom.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,16 @@ public class ProductsController {
     }
 
     @PutMapping("{id}")
-    public Boolean updateProduct(){
-        return null ;
+    public ResponseEntity<String> updateProduct(@PathVariable long id ,@RequestBody ProductsRequest productsRequest){
+        boolean isUpdated = productService.updateProduct(id,productsRequest);
+        if(isUpdated)
+            return ResponseEntity.ok("Updated Successfully");
+
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductsResponse> getProductById(@PathVariable Long id){
+    public ResponseEntity<ProductsResponse> getProductById(@PathVariable long id){
         return productService.getProductById(id)
                 .map(ResponseEntity::ok).orElseGet(
                         ()-> ResponseEntity.notFound().build()
