@@ -75,4 +75,13 @@ public class ProductService {
     }
 
 
+    public boolean deleteProduct(long id) {
+        return productsRepository.findById(id)
+                .map(product -> {
+                    product.setActive(false);
+                    productsRepository.save(product);
+                    return true ;
+                }).orElse(false);
+
+    }
 }
