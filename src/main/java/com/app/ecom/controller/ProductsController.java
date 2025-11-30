@@ -18,17 +18,16 @@ public class ProductsController {
 
     @GetMapping()
     public ResponseEntity<List<ProductsResponse>> getAllProducts(){
-        return new ResponseEntity<List<ProductsResponse>>(
-                productService.getAllProducts(),
-                HttpStatus.FOUND
-        );
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 
     @PutMapping("{id}")
     public ResponseEntity<ProductsResponse> updateProduct(@PathVariable long id ,@RequestBody ProductsRequest productsRequest){
         return  productService.updateProduct(id, productsRequest)
                 .map(ResponseEntity::ok)
-                .orElseGet(()-> ResponseEntity.notFound().build());
+                .orElseGet(
+                        ()-> ResponseEntity.notFound().build()
+                );
     }
 
     @GetMapping("{id}")

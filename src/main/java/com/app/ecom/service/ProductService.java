@@ -31,7 +31,10 @@ public class ProductService {
     }
 
     public List<ProductsResponse> getAllProducts (){
-        return productsRepository.findAll().stream().map(this::mapToProductResponse).collect(Collectors.toList());
+        return productsRepository.findByActiveTrue()
+                .stream()
+                .map(this::mapToProductResponse)
+                .collect(Collectors.toList());
     }
 
     public Optional<ProductsResponse> updateProduct (long id , ProductsRequest productsRequest ) {
