@@ -3,7 +3,6 @@ package com.app.ecom.service;
 import com.app.ecom.dto.ProductsRequest;
 import com.app.ecom.dto.ProductsResponse;
 import com.app.ecom.entity.Product;
-import com.app.ecom.entity.User;
 import com.app.ecom.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class ProductService {
     public ProductsResponse createProduct (ProductsRequest productsRequest) {
         Product product = new Product();
         ConvertFromProductRequest(product , productsRequest);
-       Product savedProduct = productsRepository.save(product);
+        Product savedProduct = productsRepository.save(product);
         return mapToProductResponse(savedProduct);
     }
 
@@ -35,14 +34,14 @@ public class ProductService {
         return productsRepository.findAll().stream().map(this::mapToProductResponse).collect(Collectors.toList());
     }
 
-    public boolean updateProduct (long id ,ProductsRequest productsRequest ) {
+    public Optional<ProductsResponse> updateProduct (long id , ProductsRequest productsRequest ) {
 
         return productsRepository.findById(id)
                 .map(existingProduct ->{
                     ConvertFromProductRequest(existingProduct,productsRequest);
-                    productsRepository.save(existingProduct);
-                    return true;
-                }).orElse(false);
+                   Product savedProduct = productsRepository.save(existingProduct);
+                    return mapToProductResponse(savedProduct);
+                });
     }
 
     public void ConvertFromProductRequest (Product product , ProductsRequest productsRequest){
