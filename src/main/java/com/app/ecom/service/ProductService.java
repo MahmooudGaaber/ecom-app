@@ -84,4 +84,13 @@ public class ProductService {
                 }).orElse(false);
 
     }
+
+    public List<ProductsResponse> searchProduct(String keyword) {
+        return productsRepository.searchProduct(keyword)
+                .stream()
+                .map(this::mapToProductResponse)
+                .collect(Collectors.toList());
+    }
+
+
 }
