@@ -47,6 +47,23 @@ public class ProductService {
                 });
     }
 
+    public boolean deleteProduct(long id) {
+        return productsRepository.findById(id)
+                .map(product -> {
+                    product.setActive(false);
+                    productsRepository.save(product);
+                    return true ;
+                }).orElse(false);
+
+    }
+
+    public List<ProductsResponse> searchProduct(String keyword) {
+        return productsRepository.searchProduct(keyword)
+                .stream()
+                .map(this::mapToProductResponse)
+                .collect(Collectors.toList());
+    }
+
     public void ConvertFromProductRequest (Product product , ProductsRequest productsRequest){
         product.setCategory(productsRequest.getCategory());
         product.setDescription(productsRequest.getDescription());
@@ -75,22 +92,7 @@ public class ProductService {
     }
 
 
-    public boolean deleteProduct(long id) {
-        return productsRepository.findById(id)
-                .map(product -> {
-                    product.setActive(false);
-                    productsRepository.save(product);
-                    return true ;
-                }).orElse(false);
 
-    }
-
-    public List<ProductsResponse> searchProduct(String keyword) {
-        return productsRepository.searchProduct(keyword)
-                .stream()
-                .map(this::mapToProductResponse)
-                .collect(Collectors.toList());
-    }
 
 
 }

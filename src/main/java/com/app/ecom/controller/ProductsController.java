@@ -40,7 +40,7 @@ public class ProductsController {
 
     @PostMapping()
     public ResponseEntity<ProductsResponse> createProduct(@RequestBody ProductsRequest productsRequest){
-        return  new ResponseEntity<ProductsResponse>(
+        return  new ResponseEntity<>(
                 productService.createProduct(productsRequest),
                 HttpStatus.CREATED
         );
