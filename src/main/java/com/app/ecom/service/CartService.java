@@ -84,32 +84,15 @@ public class CartService {
 
         // ? look for the product if found
         Optional<Product> productOpt = productsRepository.findById(productId);
-
-        // ! case that product I need to add out of the system
-        if (productOpt.isEmpty()){
-            return false;
-        }
-
-        //?  once I make sure that the product the user try to add is from the list of product in the system
-        Product product = productOpt.get();
-
-        // ? look for the User if found
         Optional<User> userOpt = userRepository.findById(Long.valueOf(userId));
 
-        // ! case that User Not Valid
-        if (userOpt.isEmpty()){
-            return false;
-        }
-
-
-        userOpt.flatMap(
-                user -> productOpt.map(
-                        product1 -> {
-                            cartRepository.deleteByUserAndProduct(user,product);
-                            return true;
-                        }
-                )
-        );
+       if(
+               productOpt.isPresent() &&
+               userOpt.isPresent()
+       ){
+           cartRepository.deleteByUserAndProduct(userOpt.get(),productOpt.get());
+           return true;
+       }
         return false;
     }
 
