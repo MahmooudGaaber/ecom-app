@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -103,9 +105,11 @@ public class CartService {
         Optional<User> userOpt = userRepository.findById(Long.valueOf(userId));
 
         if(userOpt.isPresent()){
-            return cartRepository.findAll();
+            return cartRepository.findAll()
+                    .stream()
+                    .filter(item-> Objects.equals(item.getUser().getId(), Long.valueOf(userId)))
+                    .collect(Collectors.toList());
         }
-
         return null;
     }
 
