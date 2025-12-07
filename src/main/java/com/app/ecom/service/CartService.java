@@ -99,18 +99,10 @@ public class CartService {
         return false;
     }
 
-    public List<Cart> getAllItemsOnCart(
-            String userId
-    ){
-        Optional<User> userOpt = userRepository.findById(Long.valueOf(userId));
-
-        if(userOpt.isPresent()){
-            return cartRepository.findAll()
-                    .stream()
-                    .filter(item-> Objects.equals(item.getUser().getId(), Long.valueOf(userId)))
-                    .collect(Collectors.toList());
-        }
-        return null;
+    public List<Cart> getAllItemsOnCart(String userId) {
+        return userRepository.findById(Long.valueOf(userId))
+                .map(user -> cartRepository.findByUserId(user.getId()))
+                .orElseGet(List::of);
     }
 
 

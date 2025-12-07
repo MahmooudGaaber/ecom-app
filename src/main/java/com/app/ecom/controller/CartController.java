@@ -44,7 +44,7 @@ public class CartController {
     public ResponseEntity<List<Cart>> getAllItemsOfCart (
             @RequestHeader("X-User-ID") String userId
             ){
-      return   ResponseEntity.ok(cartService.getAllItemsOnCart(userId));
+      return ResponseEntity.ok(cartService.getAllItemsOnCart(userId));
     }
 
 
